@@ -10,7 +10,7 @@ resource "aws_security_group" "vpce_sg" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_vpc_in" {
+resource "aws_vpc_security_group_ingress_rule" "vpce_sg_in" {
   security_group_id = aws_security_group.vpce_sg.id
   cidr_ipv4 = aws_vpc.main.cidr_block
   ip_protocol = "tcp"
@@ -18,7 +18,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_vpc_in" {
   to_port = 443
 }
 
-resource "aws_vpc_security_group_egress_rule" "allow_vpc_out" {
+resource "aws_vpc_security_group_egress_rule" "vpce_sg_out" {
   security_group_id = aws_security_group.vpce_sg.id
   cidr_ipv4 = "0.0.0.0/0"
   ip_protocol = -1
