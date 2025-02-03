@@ -29,7 +29,15 @@ resource "aws_vpc_endpoint" "vpce" {
     vpc_id = aws_vpc.main.id
     private_dns_enabled = true
     vpc_endpoint_type = "Interface"
-    subnet_ids = values(aws_subnet.private)[*].id
+    subnet_ids = [aws_subnet.private.id]
+    # subnet_ids = values(aws_subnet.private)[*].id
     security_group_ids = [aws_security_group.vpce_sg.id]
     service_name = "com.amazonaws.${var.region}.${each.key}"
+}
+
+resource "aws_vpc_endpoint" "s3-gw" {
+  vpc_id = aws_vpc.main.id
+  vpc_endpoint_type = "Gateway"
+  route_table_ids = [aws_route_table.pvt-rt.id]
+  service_name = "com.amazonaws.${var.region}.s3"
 }
